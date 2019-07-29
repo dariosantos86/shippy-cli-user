@@ -1,4 +1,4 @@
-# consignment-service/Dockerfile
+# user-cli/Dockerfile
 
 # We use the official golang image, which contains all the 
 # correct build tools and libraries. Notice `as builder`,
@@ -13,7 +13,7 @@ WORKDIR /app/shippy-cli-user
 # Copy the current code into our workdir
 COPY . .
 
-RUN go mod download
+#RUN go mod download
 
 # Build the binary, with a few flags which will allow
 # us to run this binary in Alpine. 
@@ -31,13 +31,13 @@ RUN apk --no-cache add ca-certificates
 RUN mkdir /app
 WORKDIR /app
 
-ADD consignment.json /app/consignment.json
-
 # Here, instead of copying the binary from our host machine,
 # we pull the binary from the container named `builder`, within
 # this build context. This reaches into our previous image, finds
 # the binary we built, and pulls it into this container. Amazing!
 COPY --from=builder /app/shippy-cli-user/shippy-cli-user .
+
+ENTRYPOINT ["./shippy-user-cli"]
 
 # Run the binary as per usual! This time with a binary build in a
 # separate container, with all of the correct dependencies and

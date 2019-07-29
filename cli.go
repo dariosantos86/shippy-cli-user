@@ -1,4 +1,3 @@
-// shippy-cli-user/main.go
 package main
 
 import (
